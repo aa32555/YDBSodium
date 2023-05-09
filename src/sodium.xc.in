@@ -1,0 +1,15 @@
+//###############################################################
+//#								#
+//# Copyright (c) 2023 YottaDB LLC and/or its subsidiaries.	#
+//# All rights reserved.					#
+//#								#
+//#	This source code contains the intellectual property	#
+//#	of its copyright holder(s), and is made available	#
+//#	under a license.  If you do not know the terms of	#
+//#	the license, please stop and do not read further.	#
+//#								#
+//###############################################################
+@install_dir@/libsodium.so
+pwhash:			ydb_char_t*	sodium_crypto_pwhash_str(I:ydb_string_t*)
+pwverify:		ydb_int_t	sodium_crypto_pwhash_verify(I:ydb_string_t*, I:ydb_char_t*)
+randombuf:		ydb_string_t*	sodium_randombytes_buf(I:ydb_int_t)
