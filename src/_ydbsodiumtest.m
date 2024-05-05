@@ -3,7 +3,7 @@
  ; We run this test twice, once with unlimited memory and once with ulimit -v 32000
  ;#################################################################
  ;#								#
- ;# Copyright (c) 2023 YottaDB LLC and/or its subsidiaries.	#
+ ;# Copyright (c) 2023-2024 YottaDB LLC and/or its subsidiaries.#
  ;# All rights reserved.					#
  ;#								#
  ;#	This source code contains the intellectual property	#
@@ -43,8 +43,13 @@ pwhash ; @TEST test password hashing
  . set $zstatus=""
  ;
  ; No arguments
- do eq^%ut($&sodium.pwhash(),"")
- do eq^%ut($zstatus,"ydbsodium: Invalid Parameters passed")
+ new result,ecode,x
+ do
+ . new $etrap set $etrap="set ecode=$ecode,$ecode="""""
+ . set x=$&sodium.pwhash()
+ do eq^%ut($data(x),0)
+ do tf^%ut($zstatus["YDB-E-XCRETNULLREF")
+ do eq^%ut(ecode,",Z150384386,")
  set $zstatus=""
  quit
  ;
@@ -96,8 +101,13 @@ randombuf ; @TEST test random data
  do eq^%ut($zlength(r),10)
  do eq^%ut($zstatus,"")
  ;
- do eq^%ut($&sodium.randombuf(),"")
- do eq^%ut($zstatus,"ydbsodium: Invalid Parameters passed")
+ new x
+ do
+ . new $etrap set $etrap="set ecode=$ecode,$ecode="""""
+ . set x=$&sodium.randombuf()
+ do eq^%ut($data(x),0)
+ do tf^%ut($zstatus["YDB-E-XCRETNULLREF")
+ do eq^%ut(ecode,",Z150384386,")
  set $zstatus=""
  quit
  ;
